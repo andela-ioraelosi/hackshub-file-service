@@ -1,0 +1,32 @@
+{
+  "name": "hackshub-file-service",
+  "version": "0.0.1",
+  "description": "A simple file upload and download service for Hackshub",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andela-ioraelosi/hackshub-file-service.git"
+  },
+  "keywords": [
+    "files",
+    "upload",
+    "download",
+    "dropbox",
+    "hackshub"
+  ],
+  "author": "Ifeanyi Oraelosi <ifeanyioraelosi@gmail.com> (http://gnerkus.github.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andela-ioraelosi/hackshub-file-service/issues"
+  },
+  "homepage": "https://github.com/andela-ioraelosi/hackshub-file-service",
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "dbox": "^0.6.4",
+    "express": "^4.12.3",
+    "mongoose": "^4.0.1"
+  }
+}
