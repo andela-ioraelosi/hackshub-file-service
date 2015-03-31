@@ -1,0 +1,11 @@
+{
+  "node": true,
+  "browser": true,
+  "eqeqeq": true,
+  "globalstrict": true,
+  "curly": true,
+  "undef": true,
+  "immed": true,
+  "trailing": true,
+  "indent": 2
+}
