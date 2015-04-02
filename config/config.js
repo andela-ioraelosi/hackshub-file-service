@@ -4,7 +4,7 @@ module.exports = function () {
   return {
     db: {
       development: {
-        uri: 'mongodb://localhost/hackshub-file-service-db',
+        uri: 'mongodb://localhost:27017/hackshub-file-service-db',
         options: {
           user: '',
           pass: ''
@@ -12,7 +12,11 @@ module.exports = function () {
       },
 
       test: {
-
+        uri: 'mongodb://localhost:27017/hackshub-file-service-db-test',
+        options: {
+          user: '',
+          pass: ''
+        }
       }
     },
 
