@@ -7,5 +7,6 @@
   "undef": true,
   "immed": true,
   "trailing": true,
-  "indent": 2
+  "indent": 2,
+  "jasmine": true
 }
