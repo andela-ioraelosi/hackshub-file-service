@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var router = require('./../app/routes');
 
-module.exports = function (db) {
+module.exports = function () {
 
   var app = express();
 
