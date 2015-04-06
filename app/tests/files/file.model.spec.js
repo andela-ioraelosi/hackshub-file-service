@@ -51,8 +51,10 @@ describe('File Model Unit Tests: ', function () {
       file.filename = "image.jpg";
 
       file.save(function (err, file) {
-        FileModel.find({filename: "image.jpg"}, function (err, file) {
-          expect(err).toBeNull();
+
+        FileModel.findOne(file, function (err, file) {
+          expect(file).not.toBeNull();
+          done();
         });
       });
     });
@@ -78,14 +80,15 @@ describe('File Model Unit Tests: ', function () {
       done();
     });
 
-    it('should update the file object', function () {
+    it('should update the file object', function (done) {
       file.save(function (err, file) {
-        FileModel.find({filename: "funny.gif"}, function (err, file) {
-          file.filename = "not_funny.gif";
+        FileModel.findOne(file, function (err, found_file) {
+          found_file.filename = "not_funny.gif";
 
-          file.save(function (err, file) {
-            FileModel.find({filename: "not_funny.gif"}, function (err, file) {
-              expect(err).toBeNull();
+          found_file.save(function (err, file) {
+            FileModel.findOne(file, function (err, file) {
+              expect(file).not.toBeNull();
+              done();
             });
           });
         });
@@ -112,11 +115,12 @@ describe('File Model Unit Tests: ', function () {
       done();
     });
 
-    it('should delete the file object', function () {
+    it('should delete the file object', function (done) {
       file.save(function (err, file) {
         file.remove(function (err, file) {
-          FileModel.find({filename: "funny.gif"}, function (err, file) {
+          FileModel.findOne(file, function (err, file) {
             expect(file).toBeNull();
+            done();
           });
         });
       });
