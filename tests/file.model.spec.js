@@ -4,7 +4,7 @@
 Module dependencies
  */
 var mongoose = require('mongoose');
-var config = require('./../../../config/config')();
+var config = require('./../config/config')();
 
 // Connect to MongoDB
 var db = mongoose.connect(config.db.test.uri, config.db.test.options, function (err) {
@@ -13,7 +13,7 @@ var db = mongoose.connect(config.db.test.uri, config.db.test.options, function (
   }
 });
 
-var FileModel = require('./../../models/file.model');
+var FileModel = require('./../app/files/models/file.model');
 
 /*
 Globals

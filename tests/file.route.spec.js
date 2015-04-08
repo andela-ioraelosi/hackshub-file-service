@@ -1,12 +1,10 @@
 'use strict';
 
-var app = require('./../../../config/express')();
-var config = require('./../../../config/config')();
+var app = require('./../config/express')();
+var config = require('./../config/config')();
 var mongoose = require('mongoose');
 var request = require('supertest');
-var FileModel = require('./../../models/file.model');
-
-process.env.NODE_ENV = 'test';
+var FileModel = require('./../app/files/models/file.model');
 
 describe('File API endpoints: ', function () {
 
