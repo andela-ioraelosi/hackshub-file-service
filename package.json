@@ -4,7 +4,7 @@
   "description": "A simple file upload and download service for Hackshub",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/jasmine-node/bin/jasmine-node app/tests/ --autotest --color"
+    "test": "NODE_ENV=test && node_modules/jasmine-node/bin/jasmine-node tests/ --autotest --color"
   },
   "repository": {
     "type": "git",
@@ -25,9 +25,10 @@
   "homepage": "https://github.com/andela-ioraelosi/hackshub-file-service",
   "dependencies": {
     "body-parser": "^1.12.2",
-    "dbox": "^0.6.4",
     "express": "^4.12.3",
-    "mongoose": "^4.0.1"
+    "method-override": "^2.3.2",
+    "mongoose": "^4.0.1",
+    "multer": "^0.1.8"
   },
   "devDependencies": {
     "jasmine-node": "^1.14.5",

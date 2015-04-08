@@ -5,9 +5,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-var router = require('./../app/routes');
+var router = require('./../app/files/routes')();
 
-module.exports = function (db) {
+module.exports = function () {
 
   var app = express();
 
@@ -16,7 +16,6 @@ module.exports = function (db) {
   }));
 
   app.use(bodyParser.json());
-
   app.use('/api/v1/', router);
 
   return app;
