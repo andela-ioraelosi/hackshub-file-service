@@ -17,9 +17,18 @@ module.exports = function () {
           user: '',
           pass: ''
         }
+      },
+
+      staging: {
+
+      },
+
+      production: {
+
       }
     },
 
-    port: process.env.PORT || 5555
+    port: process.env.PORT || 5555,
+    client_secret: process.env.FOUR_SYNC_KEY
   };
 };
