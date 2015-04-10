@@ -18,7 +18,9 @@ var dropboxClient = client.authenticate(function(error, client) {
   }
 });
 
-module.exports = function (dropboxClient) {
+var router = require('./../app/files/routes')(dropboxClient);
+
+module.exports = function () {
 
   var app = express();
 
@@ -30,8 +32,6 @@ module.exports = function (dropboxClient) {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
-
-  var router = require('./../app/files/routes')(dropboxClient);
 
   app.use(bodyParser.json());
   app.use('/api/v1/', router);
