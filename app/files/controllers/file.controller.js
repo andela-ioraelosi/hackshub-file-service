@@ -113,6 +113,27 @@ module.exports = function (dropboxClient) {
         });
       });
 
+    },
+
+    deleteFile: function (request, response) {
+
+      var path = '/' + request.params.path;
+
+      dropboxClient.remove(path, function (error, fileStat) {
+        if (error) {
+          response.json(error);
+        }
+
+        FileModel.remove({path: path}, function (err) {
+          if (err) {
+            response.json(err);
+          }
+
+          response.json({
+            message: 'File deleted successfully.'
+          });
+        });
+      });
     }
   };
 };
