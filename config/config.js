@@ -24,7 +24,11 @@ module.exports = function () {
       },
 
       production: {
-
+        uri: 'mongodb://ifeanyio:dexter@ds059471.mongolab.com:59471/hackshub-file-service',
+        options: {
+          user: '',
+          pass: ''
+        }
       }
     },
 

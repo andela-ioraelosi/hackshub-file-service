@@ -4,7 +4,8 @@
   "description": "A simple file upload and download service for Hackshub",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test && node_modules/jasmine-node/bin/jasmine-node tests/ --autotest --color"
+    "test": "NODE_ENV=test && node_modules/jasmine-node/bin/jasmine-node tests/ --autotest --color",
+    "start-prod": "NODE_ENV=production && nodemon"
   },
   "repository": {
     "type": "git",
