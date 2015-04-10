@@ -40,7 +40,11 @@ module.exports = function (dropboxClient) {
           response.json(error);
         }
 
-        dropboxClient.makeUrl(fileStat.path, function (error, shareUrl) {
+        var shareOptions = {
+          downloadHack: true
+        };
+
+        dropboxClient.makeUrl(fileStat.path, shareOptions, function (error, shareUrl) {
           if (error) {
             response.json(error);
           }
@@ -63,6 +67,52 @@ module.exports = function (dropboxClient) {
           });
         });
       });
+    },
+
+    updateFile: function (request, response) {
+
+      var file = request.files.fileName;
+      var path = '/' + request.params.path;
+      var options = {
+        noOverwrite: false
+      };
+
+      dropboxClient.writeFile(path, file.buffer, options, function (error, fileStat) {
+        if (error) {
+          response.json(error);
+        }
+
+        var shareOptions = {
+          downloadHack: true
+        };
+
+        dropboxClient.makeUrl(fileStat.path, shareOptions, function (error, shareUrl) {
+          if (error) {
+            response.json(error);
+          }
+
+          FileModel.findOneAndUpdate({
+            path: path
+          }, {
+            downloadUrl: shareUrl.url,
+            modified: fileStat.modified,
+            size: fileStat.size,
+            is_dir: fileStat.is_dir,
+            path: fileStat.path
+          },
+          function (err, file) {
+            if (err) {
+              response.json(err);
+            }
+
+            response.json({
+              message: 'File updated successfully.',
+              data: file
+            });
+          });
+        });
+      });
+
     }
   };
 };

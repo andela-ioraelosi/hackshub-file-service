@@ -9,5 +9,6 @@ module.exports = function (router, dropboxClient) {
     .post(files.createFile);
 
   router.route('/files/:path')
-    .get(files.getFile);
+    .get(files.getFile)
+    .put(files.updateFile);
 };
