@@ -4,11 +4,11 @@ var express = require('express');
 
 var fileRoutes = require('./file.routes');
 
-module.exports = function () {
+module.exports = function (dropboxClient) {
 
   var router = express.Router();
 
-  fileRoutes(router);
+  fileRoutes(router, dropboxClient);
 
   return router;
 };
