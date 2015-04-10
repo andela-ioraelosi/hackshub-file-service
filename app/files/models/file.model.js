@@ -3,8 +3,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var FileSchema = new Schema({
-  filename: {type: String, required: true},
-  created_at: {type: Date}
+  downloadUrl: {type: String, required: true},
+  modified: {type: String},
+  size: {type: String},
+  is_dir: {type: Boolean},
+  path: {type: String, required: true}
 });
 
 module.exports = mongoose.model('FileModel', FileSchema);
