@@ -4,12 +4,30 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var multer = require('multer');
 
-var router = require('./../app/files/routes')();
+var dropbox = require("dropbox");
+var client = new dropbox.Client({
+    key: "df6n0p9kq2fd7o1",
+    secret: "2yxvgwwldx5isf0"
+});
+client.authDriver(new dropbox.AuthDriver.NodeServer(8191));
+var dropboxClient = client.authenticate(function(error, client) {
+  if (error) {
+    console.error(error);
+  }
+});
+
+var router = require('./../app/files/routes')(dropboxClient);
 
 module.exports = function () {
 
   var app = express();
+
+  app.use(multer({
+    dest: './uploads/',
+    inMemory: true
+  }));
 
   app.use(bodyParser.urlencoded({
     extended: true

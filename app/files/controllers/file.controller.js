@@ -1,35 +1,139 @@
 'use strict';
-var config = require('./../../../config/config')();
-var secret = config.client_secret;
-
-var http = require('http');
 var FileModel = require('./../models/file.model');
 
-module.exports = {
+module.exports = function (dropboxClient) {
 
-  createFile: function (request, response) {
-    var fileObject = request.body;
+  return {
+    getFiles: function (request, response) {
 
-    FileModel.create(fileObject, function (err, file) {
-      if (err) {
-        response.json(err);
-      }
+      FileModel.find({}, function (error, files) {
+        if (error) {
+          response.json(error);
+        }
 
-      response.json(file);
-    });
-  },
+        response.json(files);
+      });
+    },
 
-  getFiles: function (request, response) {
+    getFile: function (request, response) {
 
-    http.get("http://api.4sync.com/v0/files.json?oauth_consumer_key=" + secret, function (res) {
-      var body = '';
-      res.on('data', function (data) {
-        body += data;
+      var path = request.params.path;
+      FileModel.findOne({path: path}, function (error, file) {
+
+        if (error) {
+          response.json(error);
+        }
+
+        response.json(file);
+      });
+    },
+
+    createFile: function (request, response) {
+
+      var file = request.files.fileName;
+      var options = {
+        noOverwrite: true
+      };
+
+      dropboxClient.writeFile('/' + file.originalname, file.buffer, options, function (error, fileStat) {
+        if (error) {
+          response.json(error);
+        }
+
+        var shareOptions = {
+          downloadHack: true
+        };
+
+        dropboxClient.makeUrl(fileStat.path, shareOptions, function (error, shareUrl) {
+          if (error) {
+            response.json(error);
+          }
+
+          FileModel.create({
+            downloadUrl: shareUrl.url,
+            modified: fileStat.modified,
+            size: fileStat.size,
+            is_dir: fileStat.is_dir,
+            path: fileStat.path
+          }, function (err, file) {
+            if (err) {
+              response.json(err);
+            }
+
+            response.json({
+              message: 'File created successfully.',
+              data: file
+            });
+          });
+        });
+      });
+    },
+
+    updateFile: function (request, response) {
+
+      var file = request.files.fileName;
+      var path = '/' + request.params.path;
+      var options = {
+        noOverwrite: false
+      };
+
+      dropboxClient.writeFile(path, file.buffer, options, function (error, fileStat) {
+        if (error) {
+          response.json(error);
+        }
+
+        var shareOptions = {
+          downloadHack: true
+        };
+
+        dropboxClient.makeUrl(fileStat.path, shareOptions, function (error, shareUrl) {
+          if (error) {
+            response.json(error);
+          }
+
+          FileModel.findOneAndUpdate({
+            path: path
+          }, {
+            downloadUrl: shareUrl.url,
+            modified: fileStat.modified,
+            size: fileStat.size,
+            is_dir: fileStat.is_dir,
+            path: fileStat.path
+          },
+          function (err, file) {
+            if (err) {
+              response.json(err);
+            }
+
+            response.json({
+              message: 'File updated successfully.',
+              data: file
+            });
+          });
+        });
       });
 
-      res.on('end', function () {
-        response.json(JSON.parse(body));
+    },
+
+    deleteFile: function (request, response) {
+
+      var path = '/' + request.params.path;
+
+      dropboxClient.remove(path, function (error, fileStat) {
+        if (error) {
+          response.json(error);
+        }
+
+        FileModel.remove({path: path}, function (err) {
+          if (err) {
+            response.json(err);
+          }
+
+          response.json({
+            message: 'File deleted successfully.'
+          });
+        });
       });
-    });
-  }
+    }
+  };
 };
