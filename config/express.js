@@ -7,15 +7,10 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 
 var dropbox = require("dropbox");
-var client = new dropbox.Client({
+var dropboxClient = new dropbox.Client({
     key: "df6n0p9kq2fd7o1",
-    secret: "2yxvgwwldx5isf0"
-});
-client.authDriver(new dropbox.AuthDriver.NodeServer(8191));
-var dropboxClient = client.authenticate(function(error, client) {
-  if (error) {
-    console.error(error);
-  }
+    secret: "2yxvgwwldx5isf0",
+    token: "XRkSV5SnjmAAAAAAAAAAZSpxjFQvLTAsoIZDewTkEiJ4wlF-U7kiE7LKOnrEM4aV"
 });
 
 var router = require('./../app/files/routes')(dropboxClient);
