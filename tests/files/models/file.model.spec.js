@@ -13,7 +13,7 @@ var db = mongoose.connect(config.db.test.uri, config.db.test.options, function (
   }
 });
 
-var FileModel = require('./../app/files/models/file.model');
+var FileModel = require('./../../../app/files/models/file.model');
 
 /*
 Globals
@@ -41,8 +41,8 @@ describe('File Model Unit Tests: ', function () {
       });
     });
 
-    it('should throw an error when saved without a filename', function (done) {
-      file.filename = '';
+    it('should throw an error when saved without a downloadUrl', function (done) {
+      file.downloadUrl = '';
 
       file.save(function (err, file) {
         expect(err).not.toBeNull();
@@ -50,8 +50,17 @@ describe('File Model Unit Tests: ', function () {
       });
     });
 
-    it('should create a file object', function (done) {
-      file.filename = "image.jpg";
+    it('should throw an error when saved without a path', function (done) {
+      file.path = '';
+
+      file.save(function (err, file) {
+        expect(err).not.toBeNull();
+        done();
+      });
+    });
+
+    it('should create a new file object', function (done) {
+      file.path = "/image.jpg";
 
       file.save(function (err, file) {
 
@@ -77,8 +86,11 @@ describe('File Model Unit Tests: ', function () {
 
     beforeEach(function (done) {
       file = new FileModel({
-        filename: "funny.gif",
-        created_at: new Date()
+        downloadUrl: 'https://www.google.com',
+        modified: 'today',
+        size: '234KB',
+        is_dir: true,
+        path: '/avatar.png'
       });
       done();
     });
@@ -86,7 +98,7 @@ describe('File Model Unit Tests: ', function () {
     it('should update the file object', function (done) {
       file.save(function (err, file) {
         FileModel.findOne(file, function (err, found_file) {
-          found_file.filename = "not_funny.gif";
+          found_file.path = "/not_funny.gif";
 
           found_file.save(function (err, file) {
             FileModel.findOne(file, function (err, file) {
@@ -112,8 +124,11 @@ describe('File Model Unit Tests: ', function () {
 
     beforeEach(function (done) {
       file = new FileModel({
-        filename: "funny.gif",
-        created_at: new Date()
+        downloadUrl: 'https://www.google.com',
+        modified: 'today',
+        size: '234KB',
+        is_dir: true,
+        path: '/avatar.png'
       });
       done();
     });
