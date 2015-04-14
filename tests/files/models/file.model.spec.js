@@ -25,8 +25,11 @@ describe('File Model Unit Tests: ', function () {
 
     beforeEach(function (done) {
       file = new FileModel({
-        filename: 'A random file',
-        created_at: new Date()
+        downloadUrl: 'https://www.google.com',
+        modified: 'today',
+        size: '234KB',
+        is_dir: true,
+        path: '/avatar.png'
       });
       done();
     });
